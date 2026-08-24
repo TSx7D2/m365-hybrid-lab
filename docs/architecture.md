@@ -127,7 +127,6 @@ accounts stay active in the cloud indefinitely.
 | --- | --- | --- |
 | Break-glass admin | Cloud only, initial `.onmicrosoft.com` domain | Excluded from every Conditional Access policy. Never used routinely |
 | Working Global Admin | Cloud only, verified domain | Day-to-day tenant administration |
-| Hybrid Identity Admin | Not created | See the note below. The Entra Connect wizard was run as the working Global Admin instead |
 | Named domain admin | On-premises, `OU=Admin` | All domain administration. Never synced |
 | Built-in `Administrator` | On-premises | Break-glass equivalent. Long password, not used |
 | `Sync_*` and `MSOL_*` | Created automatically | The real service accounts, whose passwords rotate themselves |
@@ -140,14 +139,3 @@ should be enforced.
 
 The break-glass account exists because every other administrative identity can be locked out by a
 Conditional Access policy, including the one that wrote the policy.
-
-**One deliberate gap, recorded rather than glossed over.** The Entra Connect wizard was run as the
-working Global Admin. The correct choice is a dedicated **Hybrid Identity Administrator**, which is
-the least-privileged role able to do it, and a Global Admin carries far more authority than the task
-needs. It makes no practical difference in a single-administrator lab, but in a real tenant it is
-the kind of habit that widens the blast radius of a compromised session for no benefit.
-
-Worth knowing what the wizard credentials are actually for. They are used once and never stored, to
-provision the `Sync_*` and `MSOL_*` service accounts, so the over-privileged sign-in is momentary
-rather than persistent. That is why this is a habit worth fixing rather than an exposure to panic
-about.
