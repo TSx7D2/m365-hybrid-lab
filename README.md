@@ -139,6 +139,8 @@ Not built yet, listed so the scope of what is built stays unambiguous:
 - **Automatic MDM enrolment for hybrid devices.** `W11-DOM01` is hybrid Entra joined but not
   enrolled in Intune, so no configuration or compliance policy reaches it. That needs the *Enable
   automatic MDM enrollment using default Azure AD credentials* Group Policy
+- **A dedicated Hybrid Identity Administrator.** The Entra Connect wizard was run as a Global Admin.
+  A least-privileged role should own that task instead
 - **Enrolment restrictions.** Not configured
 - **A sysprepped golden image**, for building further distinct devices quickly
 - **Operational routines.** Sync monitoring, a checkpoint and revert cycle, and patching. The lab
