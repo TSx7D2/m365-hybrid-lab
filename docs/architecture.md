@@ -27,14 +27,29 @@ it and the host drops off the network.
 
 | Machine | Enrolled | Reasoning |
 | --- | --- | --- |
-| `W11-AP01` | Yes | The Autopilot target, cloud only |
-| `W11-DOM01` | Yes | Hybrid joined, the realistic case for most estates |
+| `W11-AP01` | Yes | The Autopilot target, cloud only. Enrolled automatically during provisioning |
+| `W11-DOM01` | **Not yet** | Hybrid Entra joined, but not under MDM. See below |
 | `MGMT01` | **No** | Administrative tooling, not an endpoint. Enrolling it would put a Tier 0 machine under the same policy as user devices |
 | `DC01`, `AADC01` | **No** | Servers. Update-ring reboots would take out the directory |
 | Physical hosts | **No** | The hypervisors. Compliance reboots would take every VM down with them |
 
 Deciding what not to manage is as much of a design decision as deciding what to manage, and it is
 one worth being able to justify.
+
+**Hybrid Entra join and Intune enrolment are separate things.** `W11-DOM01` is hybrid joined and has
+a primary refresh token, so it authenticates to Entra and is subject to Conditional Access, but it is
+not enrolled in Intune and receives no configuration or compliance policy. The two are easy to
+conflate because an Autopilot device gets both at once during provisioning.
+
+A device that joins the domain the traditional way does not enrol on its own. Setting the MDM user
+scope in Entra covers Entra-joined devices, but a hybrid-joined device needs the Group Policy
+**Enable automatic MDM enrollment using default Azure AD credentials**, which triggers the enrolment
+task using the device's existing credentials. Without it the device sits in Entra looking healthy
+while no policy ever reaches it.
+
+This is worth knowing in an estate that is mostly hybrid joined, because "the device is in Entra"
+and "the device is managed" are different claims, and only one of them means your compliance
+reporting is telling you anything.
 
 ---
 

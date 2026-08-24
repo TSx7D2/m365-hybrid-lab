@@ -136,6 +136,9 @@ Not built yet, listed so the scope of what is built stays unambiguous:
   combination does not
 - **Seamless SSO.** Enabled in the Entra Connect wizard, but the Group Policy that publishes the SSO
   endpoints to the intranet zone has not been deployed, so it is not working end to end
+- **Automatic MDM enrolment for hybrid devices.** `W11-DOM01` is hybrid Entra joined but not
+  enrolled in Intune, so no configuration or compliance policy reaches it. That needs the *Enable
+  automatic MDM enrollment using default Azure AD credentials* Group Policy
 - **Enrolment restrictions.** Not configured
 - **A sysprepped golden image**, for building further distinct devices quickly
 - **Operational routines.** Sync monitoring, a checkpoint and revert cycle, and patching. The lab
